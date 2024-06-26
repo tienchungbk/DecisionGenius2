@@ -240,7 +240,7 @@ const ListProducts = () => {
                           textTransform="uppercase"
                           ml="2"
                         >
-                          {product.Category}
+                          {/* {product.Category} */}
                         </Box>
                       </Box>
 
