@@ -1,3 +1,3 @@
-const URL = "https://purple-donkeys-relate.loca.lt"
+const URL = "http://localhost:8000"
 
 export { URL }
