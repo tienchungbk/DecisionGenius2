@@ -50,18 +50,23 @@ const ListProducts = () => {
     fetchCategories();
   }, []);
 
-  const fetchTotalProducts = async (categoryId) => {
+  const fetchTotalProducts = async (categoryId, searchTerm = '') => {
     try {
-      const response = await fetch(
-        `${URL}/product/getTotalByCategory`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ category_id: categoryId }),
-        }
-      );
+      let endpoint = `${URL}/product/getTotalByCategory`;
+      let body = { category_id: categoryId };
+  
+      if (categoryId === 'all') {
+        endpoint = `${URL}/product/search`;
+        body = { search_term: searchTerm };
+      }
+  
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
       const data = await response.json();
       setTotalProducts(data); // Assuming this sets the total number of products
       const totalPages = Math.ceil(data / itemsPerPage); // Calculate totalPages from data
@@ -138,6 +143,7 @@ const ListProducts = () => {
     setCurrentPage(1);
     if (categoryId === 'all') {
       fetchProducts(categoryId, 1, searchTerm);
+
     } else {
       fetchTotalProducts(categoryId);
       fetchProducts(categoryId, 1);

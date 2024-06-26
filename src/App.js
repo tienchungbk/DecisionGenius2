@@ -15,9 +15,9 @@ import PrivateRoute from './components/PrivateRoute';
 import { AuthContext } from './components/AuthContext';
 
 function App() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
   const [showChat, setShowChat] = useState(false);
-
+  const token = localStorage.getItem('token');
   const toggleChat = () => {
     setShowChat(!showChat);
   };
@@ -109,7 +109,7 @@ function App() {
                   />
                 </Flex>
                 <Flex mt={2}>
-                  <Chat />
+                  <Chat userName={user.fullName} token={token} />
                 </Flex>
               </Box>
             </Box>

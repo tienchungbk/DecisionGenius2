@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Textarea, Flex, Text, Spinner } from '@chakra-ui/react';
 import { URL } from '../constant';
 
-const Chat = () => {
+const Chat = ({ userName, token }) => {
   const [messages, setMessages] = useState([
-    { role: 'AI', message: 'Xin chào ! Tôi có thể giúp gì cho bạn ?' },
+    { role: 'AI', message: `Xin chào ${userName}! Tôi có thể giúp gì cho bạn ?` },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,12 +24,12 @@ const Chat = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ user_id: 'user1', user_message: input }),
+          body: JSON.stringify({ user_id: token,user_name: userName, user_message: input }),
         });
         const data = await response.json();
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages];
-          updatedMessages[updatedMessages.length - 1] = { role: 'AI', message: data.message };
+          updatedMessages[updatedMessages.length - 1] = { role: 'AI', message: data.message.replace(/\n/g, '<br>') };
           return updatedMessages;
         });
       } catch (error) {
@@ -45,8 +45,12 @@ const Chat = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
-    <Box width="500px" mx="auto" textAlign="center" display="flex" flexDirection="column" height="500px">
+    <Box width="500px" mx="auto" textAlign="left" display="flex" flexDirection="column" height="500px">
       <Box
         bg="white"
         borderRadius="md"
@@ -67,9 +71,8 @@ const Chat = () => {
                 p={2}
                 borderRadius="lg"
                 maxW="80%"
-              >
-                {msg.message}
-              </Box>
+                dangerouslySetInnerHTML={{ __html: msg.message }}
+              />
             </Flex>
           ))}
           {loading && (

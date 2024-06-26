@@ -44,7 +44,7 @@ const ProductTable = ({ categoryId ,month}) => {
       Material: data.Material[key] === "unknown" ? "_" : data.Material[key],
       Color: data.Color[key] === "unknown" ? "_" : data.Color[key],
       Pattern: data.Pattern[key] === "unknown" ? "_" : data.Pattern[key],
-      Trend: data.Trend[key] === "unknown" ? "_" : data.Trend[key],
+      //Trend: data.Trend[key] === "unknown" ? "_" : data.Trend[key],
       Rating: data.Rating[key],
     }));
   };

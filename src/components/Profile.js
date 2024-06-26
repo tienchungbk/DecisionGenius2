@@ -14,14 +14,12 @@ const Profile = () => {
   const toast = useToast();
 
   useEffect(() => {
-    // Fetch user profile information from the API
     const fetchProfile = async () => {
       try {
         const response = await fetch(`${URL}/users/profile`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            //Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token if authentication is required
           },
           body: JSON.stringify({
             token: localStorage.getItem('token'),
@@ -60,42 +58,40 @@ const Profile = () => {
   };
 
   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     // Update user profile information
-//     try {
-//       const response = await fetch('http://localhost:8000/users/profile', {
-//         method: 'POST', // or 'POST' depending on your API
-//         headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token if authentication is required
-//         },
-//         body: JSON.stringify(profileData),
-//       });
-//       if (response.ok) {
-//         toast({
-//           title: 'Profile updated.',
-//           description: 'Your profile information has been updated successfully.',
-//           status: 'success',
-//           duration: 5000,
-//           isClosable: true,
-//         });
-//       } else {
-//         throw new Error('Failed to update profile');
-//       }
-//     } catch (error) {
-//       toast({
-//         title: 'Error updating profile.',
-//         description: 'There was an error updating your profile information. Please try again later.',
-//         status: 'error',
-//         duration: 5000,
-//         isClosable: true,
-//       });
-//     }
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8000/users/updateProfile', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+      if (response.ok) {
+        toast({
+          title: 'Profile updated.',
+          description: 'Your profile information has been updated successfully.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        throw new Error('Failed to update profile');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error updating profile.',
+        description: 'There was an error updating your profile information. Please try again later.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <Box maxW="sm" mx="auto" mt={10} p={5} shadow="md" borderWidth="1px" bg="gray.50" borderRadius="md">
-      <Heading mb={6} color="teal.500">Profile</Heading>
+      <Heading mb={6} color="teal.500">Hồ sơ</Heading>
       <form onSubmit={handleSubmit}>
         <FormControl mb={4}>
           <FormLabel>Email</FormLabel>
